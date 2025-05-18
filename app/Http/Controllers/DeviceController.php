@@ -8,6 +8,34 @@ use Illuminate\Http\JsonResponse;
 
 class DeviceController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/devices",
+     *     operationId="getDevices",
+     *     tags={"Devices"},
+     *     summary="Tüm cihazları listele",
+     *     description="Sistemdeki tüm cihazların genel bilgilerini döner",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Başarılı yanıt",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(property="name", type="string", example="Cihaz 1"),
+     *                 @OA\Property(property="ip", type="string", example="192.168.1.10"),
+     *                 @OA\Property(property="firmware_version", type="string", example="V4.20.000"),
+     *                 @OA\Property(property="device_time", type="string", example="2025-05-18 13:45:00"),
+     *                 @OA\Property(property="storage", type="array", @OA\Items(type="object")),
+     *                 @OA\Property(property="channels", type="array", @OA\Items(type="object")),
+     *                 @OA\Property(property="status", type="string", example="Online"),
+     *                 @OA\Property(property="device_info", type="object"),
+     *                 @OA\Property(property="network_status", type="object")
+     *             )
+     *         )
+     *     )
+     * )
+     */
+
     public function index()
     {
         $devices = Device::all();
@@ -75,6 +103,40 @@ class DeviceController extends Controller
     }
 
 
+    /**
+     * @OA\Get(
+     *     path="/api/devices/{id}",
+     *     operationId="getDeviceById",
+     *     tags={"Devices"},
+     *     summary="Tek bir cihaz detayını getir",
+     *     description="Belirli bir cihazın durumu, depolama, ağ ve firmware bilgilerini getirir.",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Cihaz ID'si",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Başarılı yanıt",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="device", type="string", example="Cihaz 1"),
+     *             @OA\Property(property="ip", type="string", example="192.168.1.10"),
+     *             @OA\Property(property="status", type="string", example="Online"),
+     *             @OA\Property(property="device_time", type="string", example="2025-05-18 13:45:00"),
+     *             @OA\Property(property="storage", type="array", @OA\Items(type="object")),
+     *             @OA\Property(property="channels", type="array", @OA\Items(type="object")),
+     *             @OA\Property(property="network_status", type="object"),
+     *             @OA\Property(property="device_info", type="object")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Cihaz bulunamadı"
+     *     )
+     * )
+     */
     public function show($id): JsonResponse
     {
         $device = Device::findOrFail($id);

@@ -1,0 +1,153 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Hikvision Monitor API",
+        "description": "Cihaz izleme ve yönetimi için geliştirilmiş API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/devices": {
+            "get": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Tüm cihazları listele",
+                "description": "Sistemdeki tüm cihazların genel bilgilerini döner",
+                "operationId": "getDevices",
+                "responses": {
+                    "200": {
+                        "description": "Başarılı yanıt",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Cihaz 1"
+                                            },
+                                            "ip": {
+                                                "type": "string",
+                                                "example": "192.168.1.10"
+                                            },
+                                            "firmware_version": {
+                                                "type": "string",
+                                                "example": "V4.20.000"
+                                            },
+                                            "device_time": {
+                                                "type": "string",
+                                                "example": "2025-05-18 13:45:00"
+                                            },
+                                            "storage": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "channels": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "status": {
+                                                "type": "string",
+                                                "example": "Online"
+                                            },
+                                            "device_info": {
+                                                "type": "object"
+                                            },
+                                            "network_status": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/devices/{id}": {
+            "get": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Tek bir cihaz detayını getir",
+                "description": "Belirli bir cihazın durumu, depolama, ağ ve firmware bilgilerini getirir.",
+                "operationId": "getDeviceById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Cihaz ID'si",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Başarılı yanıt",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "device": {
+                                            "type": "string",
+                                            "example": "Cihaz 1"
+                                        },
+                                        "ip": {
+                                            "type": "string",
+                                            "example": "192.168.1.10"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "Online"
+                                        },
+                                        "device_time": {
+                                            "type": "string",
+                                            "example": "2025-05-18 13:45:00"
+                                        },
+                                        "storage": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "channels": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "network_status": {
+                                            "type": "object"
+                                        },
+                                        "device_info": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Cihaz bulunamadı"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Devices",
+            "description": "Devices"
+        }
+    ]
+}
